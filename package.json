@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon --watch index.ts --exec tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepack": "tsc"
   },
   "type": "module",
   "repository": {
@@ -42,5 +42,23 @@
     "@types/yargs": "^17.0.17",
     "nodemon": "^2.0.20",
     "typescript": "^4.9.4"
-  }
+  },
+  "bundledDependencies": [
+    "chalk",
+    "chalk-animation",
+    "clipboardy",
+    "figlet",
+    "git-remote-origin-url",
+    "gradient-string",
+    "inquirer",
+    "lodash",
+    "nanospinner",
+    "open",
+    "simple-git",
+    "yargs"
+  ],
+  "files": [
+    "dist/index.js",
+    "index.ts"
+  ]
 }
