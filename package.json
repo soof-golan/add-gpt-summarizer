@@ -1,6 +1,6 @@
 {
   "name": "add-gpt-summarizer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Add AI powered PR summarization to your codebase",
   "main": "dist/index.js",
   "bin": "dist/index.js",
