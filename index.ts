@@ -134,7 +134,7 @@ async function askSelfHosted() {
   return await inquirer.prompt({
     name: 'selfHosted',
     type: 'confirm',
-    message: 'Do you want to use self-hosted runners?',
+    message: 'Use self-hosted runners?',
     default: () => args.selfHosted,
     when: () => !args.yes,
   }).then((answers) => answers.selfHosted ?? args.selfHosted);
@@ -147,18 +147,21 @@ async function askCreateOpenAIKey() {
   const createOpenAIKey = await inquirer.prompt({
     name: 'createOpenAIKey',
     type: 'confirm',
-    message: `Do you want to create an OpenAI API Key?
- (This will open your browser at ${target})`,
+    message: `Create an OpenAI API Key?`,
     default: () => !args.noBrowser,
     when: () => !args.yes,
   }).then((answers) => answers.createOpenAIKey ?? !args.noBrowser);
   if (createOpenAIKey) {
-    const spinner = createSpinner(`Opening browser to create OpenAI API Key.`).start();
-    await sleep();
-    spinner.stop();
-    console.log(`Please go to ${target} and create a new API Key.
-add it to the secret you're creating in your repository and save the secret.`);
+    const spinner = createSpinner(
+      `Go to ${target}
+Click on "Create new secret key".
+paste the key into the github action secrets tab and come back here.
+
+(Your browser will open in a few seconds)`
+    ).start()
+    await sleep(10000);
     await open(target);
+    spinner.stop();
   }
 }
 
@@ -195,8 +198,7 @@ async function addApiKeysToGitHubRepoSecrets() {
   const addToSecretsAnswer = await inquirer.prompt({
     name: 'addApiKeysToGitHubRepoSecrets',
     type: 'confirm',
-    message: `Do you want to add the OpenAI API Key to your GitHub Actions repository secrets?
- (This will open your browser at ${target})`,
+    message: `Add API key repository secrets?`,
     default: () => !args.noBrowser,
     when: () => !args.yes,
   });
@@ -206,9 +208,10 @@ async function addApiKeysToGitHubRepoSecrets() {
   await clipboard.write(secretName)
 
   const spinner = createSpinner(
-    `The secret name ("${secretName}") has been copied to your clipboard.
+    `The name "${secretName}" has been copied to your clipboard.
 Please go to ${target},
-paste the secret name and come back here.
+paste the name and come back here.
+
 (Your browser will open in a few seconds)`
   ).start()
   await sleep(10000);
@@ -220,7 +223,7 @@ async function askCommit(githubActionPath: string) {
   const commit = await inquirer.prompt({
     name: 'commit',
     type: 'confirm',
-    message: 'Do you want to use the commit your changes?',
+    message: 'Commit changes?',
     default: () => args.commit,
     when: () => !args.yes,
   }).then((answer) => answer.commit ?? args.commit);
@@ -251,7 +254,7 @@ async function askPush() {
   const push = await inquirer.prompt({
     name: 'push',
     type: 'confirm',
-    message: 'Do you want to push the changes?',
+    message: 'Push changes?',
     default: () => args.push,
     when: () => !args.yes,
   }).then((answer) => answer.push ?? args.push);
@@ -260,7 +263,7 @@ async function askPush() {
   }
 
   const spinner = createSpinner().start({
-    text: `↗️ Pushing changes`,
+    text: `↗️ Pushing`,
   });
   await sleep();
   try {
@@ -270,10 +273,16 @@ async function askPush() {
       spinner.warn({text: "Dry run: Not pushing changes."})
     }
     await simpleGit().push(options);
-    spinner.success({text: `${chalk.bgGreen("SUCCESS")} Pushed changes`});
+    spinner.success({text: `${chalk.bgGreen("SUCCESS")} Push successful`});
   } catch (e) {
     spinner.error({text: `Failed to push changes ${e}`});
   }
+}
+
+async function success() {
+  createSpinner().success({
+    text: `${chalk.bgGreen("SUCCESS")} GitHub Action for AI PR Summarizer has been set up!`,
+  });
 }
 
 async function main() {
@@ -286,6 +295,7 @@ async function main() {
   await askPush();
   args.yes || args.noBrowser || await addApiKeysToGitHubRepoSecrets();
   args.yes || args.noBrowser || await askCreateOpenAIKey();
+  await success();
 }
 
 await main().catch((e) => {
