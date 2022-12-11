@@ -1,16 +1,16 @@
 # Add GPT Summarizer
 
-an `npx` command to add the `KanHarI/gpt-commit-summarizer` GitHub Action to your repository.
+an `npx` command to add the [`KanHarI/gpt-commit-summarizer`][action] GitHub Action to your repository.
 
 ## Usage
 
 ```bash
-npx add-gpt-summarizer
+npx add-gpt-summarizer@latest
 ```
 
 
 ```bash
-$ npx add-gpt-summarizer --help
+$ npx add-gpt-summarizer@latest --help
     Add AI powered summarization to your PR in your codebase
     
     Options:
@@ -38,8 +38,10 @@ $ npx add-gpt-summarizer --help
 
 MIT. See [LICENSE](./LICENSE) for more details.
 
-
 # Acknowledgements
 
-Thanks to [@KanHarI](https://github.com/KanHarI) for creating the 
-[gpt-commit-summarizer](https://github.com/KanHarI/gpt-commit-summarizer) GitHub Action.
+Thanks to [KanHarI][KanHarI] for creating the 
+[gpt-commit-summarizer][action] GitHub Action.
+
+[KanHarI]: https://github.com/KanHarI
+[action]: https://github.com/KanHarI/gpt-commit-summarizer
