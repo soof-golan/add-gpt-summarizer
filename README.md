@@ -2,7 +2,11 @@
 
 an `npx` command to add the [`KanHarI/gpt-commit-summarizer`][action] GitHub Action to your repository.
 
-![Demo](docs/demo.png)
+![command-line demo](docs/cli-demo.gif)
+
+This is how it will look in your pull-requests:
+
+![pull request demo](docs/pr-demo.png)
 
 ## Usage
 
