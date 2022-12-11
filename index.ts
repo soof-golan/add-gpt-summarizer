@@ -142,23 +142,23 @@ async function askSelfHosted() {
 
 // Ask the user to create an OpenAI API Key
 async function askCreateOpenAIKey() {
-  const url = 'https://beta.openai.com/account/api-keys';
+  const target = 'https://beta.openai.com/account/api-keys';
 
   const createOpenAIKey = await inquirer.prompt({
     name: 'createOpenAIKey',
     type: 'confirm',
     message: `Do you want to create an OpenAI API Key?
- (This will open your browser at ${url})`,
+ (This will open your browser at ${target})`,
     default: () => !args.noBrowser,
     when: () => !args.yes,
   }).then((answers) => answers.createOpenAIKey ?? !args.noBrowser);
   if (createOpenAIKey) {
     const spinner = createSpinner(`Opening browser to create OpenAI API Key.`).start();
-    await sleep(1000);
+    await sleep();
     spinner.stop();
-    await open(url);
-    console.log(`Please go to ${url} and create a new API Key.
-Then add it to the secrets of your repository.`)
+    console.log(`Please go to ${target} and create a new API Key.
+add it to the secret you're creating in your repository and save the secret.`);
+    await open(target);
   }
 }
 
@@ -208,7 +208,7 @@ async function addApiKeysToGitHubRepoSecrets() {
   const spinner = createSpinner(
     `The secret name ("${secretName}") has been copied to your clipboard.
 Please go to ${target},
-paste the secret name and add the OpenAI API Key to your GitHub repository secrets.
+paste the secret name and come back here.
 (Your browser will open in a few seconds)`
   ).start()
   await sleep(10000);
@@ -284,8 +284,8 @@ async function main() {
   const githubActionPath = await handleActionCreation({actionName, selfHosted});
   await askCommit(githubActionPath);
   await askPush();
-  args.yes || args.noBrowser || await askCreateOpenAIKey();
   args.yes || args.noBrowser || await addApiKeysToGitHubRepoSecrets();
+  args.yes || args.noBrowser || await askCreateOpenAIKey();
 }
 
 await main().catch((e) => {
