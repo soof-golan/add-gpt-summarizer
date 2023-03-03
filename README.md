@@ -1,6 +1,7 @@
 # Add GPT Summarizer
 
-![npm badge](https://img.shields.io/npm/v/add-gpt-summarizer/latest?label=add-gpt-summarizer&style=plastic)
+[![npm badge](https://img.shields.io/npm/v/add-gpt-summarizer/latest?label=add-gpt-summarizer&style=plastic)](https://www.npmjs.com/package/add-gpt-summarizer)
+[![GitHub Repo stars](https://img.shields.io/github/stars/soof-golan/add-gpt-summarizer?style=social)](https://github.com/soof-golan/add-gpt-summarizer)
 
 an `npx` command to add the [`KanHarI/gpt-commit-summarizer`][action] GitHub Action to your repository.
 
